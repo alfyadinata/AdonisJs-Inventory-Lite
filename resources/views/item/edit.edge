@@ -1,0 +1,43 @@
+@layout('layouts.index')
+
+@section('content')
+
+    <div class="container">
+        <div class="card" style="margin-top:30;">
+            <div class="card-body">
+                <h5 class="card-title">Edit</h5>
+                    <form method="post" action="{{ route('uItem',{id:edit.id}) }}">
+                        {{ csrfField() }}
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Name</label>
+                            <input type="text" value="{{ edit.name }}" name="name" maxlength="50" class="form-control" aria-describedby="emailHelp" required="">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Item Code</label>
+                            <input type="text" value="{{ edit.no_item }}" name="no_item" maxlength="5" class="form-control" aria-describedby="emailHelp" required="">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Qty</label>
+                            <input type="number" value="{{ edit.qty }}" name="qty" maxlength="5" class="form-control" aria-describedby="emailHelp" required="">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">From WareHouse</label>
+                            <select class="form-control" name="warehouse_id">
+                                @each(data in warehouse)
+                                    <option value="{{ data.id }}"
+                                    {{ edit.warehouse_id == data.id ? 'selected' : '' }}
+                                    >{{ data.name }}</option>
+                                @endeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Price</label>
+                            <input name="price" value="{{ edit.price }}" type="number" maxlength="10" class="form-control" aria-describedby="emailHelp" required="">
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+            </div>
+        </div><br/>
+    </div>
+@endsection

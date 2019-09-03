@@ -1,0 +1,18 @@
+@layout('layouts.index')
+@section('content')
+    <div class="container">
+        <div class="card" style="margin-top:30;">
+            <div class="card-body">
+                <h5 class="card-title">Edit</h5>
+                    <form method="post" action="{{ route('uWarehouse',{id:edit.id}) }}">
+                        {{ csrfField() }}
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Name</label>
+                            <input type="text" value="{{ edit.name }}" name="name" class="form-control" aria-describedby="emailHelp" required="">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+            </div>
+        </div><br/>
+    </div>
+@endsection

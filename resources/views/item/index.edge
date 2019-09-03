@@ -1,0 +1,102 @@
+@layout('layouts.index')
+
+@section('content')
+    <div class="container">
+        <h4>WareHouse Management</h4>
+        <div class="card" style="margin-top:30;">
+            <div class="card-body">
+                <h5 class="card-title">Create</h5>
+                    <form action="{{ route('sItem') }}" method="post">
+                        {{ csrfField() }}
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Name</label>
+                            <input type="text" name="name" maxlength="50" class="form-control" aria-describedby="emailHelp" required="">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Item Code</label>
+                            <input type="text" name="no_item" maxlength="5" class="form-control" aria-describedby="emailHelp" required="">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Qty</label>
+                            <input type="number" name="qty" maxlength="5" class="form-control" aria-describedby="emailHelp" required="">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">From WareHouse</label>
+                            <select class="form-control" name="warehouse_id">
+                                @each(data in warehouse)
+                                  <option value="{{ data.id }}">{{ data.name }}</option>
+                                @endeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Price</label>
+                            <input name="price" type="number" maxlength="10" class="form-control" aria-describedby="emailHelp" required="">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+            </div>
+        </div><br/>
+        <div class="card" style="margin-top:30;">
+            <div class="card-body">
+                <h5 class="card-title">Data</h5>
+                <div class="responsive-table">
+                    <table id="datatable" class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Item Code</th>
+                                    <th>QTY</th>
+                                    <th>Price</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                        <tbody>
+                            @each(data in item)                              
+                                <tr>
+                                    <td>{{ data.name }} </td>
+                                    <td>{{ data.no_item }}</td>
+                                    <td>{{ data.qty }}</td>
+                                    <td>Rp. {{ data.price }}/pcs</td>
+                                    <td>
+                                        <a href="{{ route('delItem',{ id: data.id }) }}" onclick="return confirm('Yakin Menghapus Data ?');" class="btn btn-danger">Delete </a> || 
+                                        <a href="{{ route('eItem',{id : data.id}) }}" class="openPopup btn btn-info">Edit </a>
+                                    </td>
+                                </tr>
+                            @endeach
+                        </tbody>
+                    </table>                
+                </div>
+            </div>
+        </div>
+    </div>
+
+@endsection
+@section('js')
+    
+    <script>
+        $('.openPopup').on('click',function(){
+            var dataURL = $(this).attr('data-href');
+            $('.modal-body').load(dataURL,function(){
+                $('#myModal').modal({show:true});
+            });
+        });
+    </script>
+    <div  class="modal fade bd-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+            </div>
+        </div>
+    </div>
+@endsection
